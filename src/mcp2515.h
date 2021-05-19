@@ -43,6 +43,7 @@ extern "C"
 // ----------------------------------------------------------------------------
 typedef struct
 {
+	bool id_type;
 	uint32_t id;
 	struct {
 		int8_t rtr : 1;

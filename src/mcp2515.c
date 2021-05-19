@@ -240,15 +240,26 @@ uint8_t mcp2515_get_message(tCAN *message)
 	spi_putc(addr);
 	
 	// read id
-	message->id  = (uint32_t) spi_putc(0xff) << 21;
-	message->id |=            spi_putc(0xff) >> 13;
-	message->id |=            spi_putc(0xff) >> 5;
-	message->id |=            spi_putc(0xff) >> 3;
-	
-	spi_putc(0xff);
-	spi_putc(0xff);
-	spi_putc(0xff);
-	spi_putc(0xff);
+	if (message->id_type == EXTENDED_ID)
+	{
+		message->id  = (uint32_t) spi_putc(0xff) << 21;
+		message->id |=            spi_putc(0xff) >> 13;
+		message->id |=            spi_putc(0xff) >> 5;
+		message->id |=            spi_putc(0xff) >> 3;
+		
+		spi_putc(0xff);
+		spi_putc(0xff);
+		spi_putc(0xff);
+		spi_putc(0xff);
+	}
+	else	// message->id_type == STANDARD_ID
+	{
+		message->id  = (uint32_t) spi_putc(0xff) << 5;
+		message->id |=            spi_putc(0xff) >> 3;
+		
+		spi_putc(0xff);
+		spi_putc(0xff);
+	}	
 	
 	// read DLC
 	uint8_t length = spi_putc(0xff) & 0x0f;
