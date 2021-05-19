@@ -240,9 +240,13 @@ uint8_t mcp2515_get_message(tCAN *message)
 	spi_putc(addr);
 	
 	// read id
-	message->id  = (uint16_t) spi_putc(0xff) << 3;
+	message->id  = (uint32_t) spi_putc(0xff) << 21;
+	message->id |=            spi_putc(0xff) >> 13;
 	message->id |=            spi_putc(0xff) >> 5;
+	message->id |=            spi_putc(0xff) >> 3;
 	
+	spi_putc(0xff);
+	spi_putc(0xff);
 	spi_putc(0xff);
 	spi_putc(0xff);
 	
@@ -301,9 +305,13 @@ uint8_t mcp2515_send_message(tCAN *message)
 	RESET(MCP2515_CS);
 	spi_putc(SPI_WRITE_TX | address);
 	
-	spi_putc(message->id >> 3);
-    spi_putc(message->id << 5);
+	spi_putc(message->id >> 21);
+    spi_putc(message->id >> 13);
+    spi_putc(message->id >> 5);
+    spi_putc(message->id << 3);
 	
+	spi_putc(0);
+	spi_putc(0);
 	spi_putc(0);
 	spi_putc(0);
 	
