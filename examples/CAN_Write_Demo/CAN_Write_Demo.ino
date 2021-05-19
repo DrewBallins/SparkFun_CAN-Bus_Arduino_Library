@@ -34,6 +34,7 @@ void setup() {
 void loop() 
 {
 tCAN message;
+message.id_type = STANDARD_ID;
 
         message.id = 0x631; //formatted in HEX
         message.header.rtr = 0;
