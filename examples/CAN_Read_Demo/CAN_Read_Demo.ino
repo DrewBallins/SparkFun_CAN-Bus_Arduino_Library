@@ -34,6 +34,7 @@ void setup() {
 void loop(){
 
   tCAN message;
+  message.id_type = STANDARD_ID;
 if (mcp2515_check_message()) 
 	{
     if (mcp2515_get_message(&message)) 
@@ -41,6 +42,16 @@ if (mcp2515_check_message())
         //if(message.id == 0x620 and message.data[2] == 0xFF)  //uncomment when you want to filter
              //{
                
+               Serial.print("ID type: ");
+               if (message.id_type == STANDARD_ID)
+               {
+                 Serial.print("STANDARD");
+               }
+               else   //message.id_type == EXTENDED_ID
+               {
+                 Serial.print("EXTENDED");
+               }
+               Serial.print(", ");
                Serial.print("ID: ");
                Serial.print(message.id,HEX);
                Serial.print(", ");
