@@ -9,6 +9,9 @@
 #define	True	1
 #define	False	0
 
+#define EXTENDED_ID	1
+#define STANDARD_ID 0
+
 //typedef	_Bool bool;
 //typedef	boolean Bool;
 
@@ -37,6 +40,5 @@
 #define	_port2(x)	PORT ## x
 #define	_ddr2(x)	DDR ## x
 #define	_pin2(x)	PIN ## x
-
 
 #endif	// GLOBAL_H
