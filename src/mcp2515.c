@@ -316,15 +316,27 @@ uint8_t mcp2515_send_message(tCAN *message)
 	RESET(MCP2515_CS);
 	spi_putc(SPI_WRITE_TX | address);
 	
-	spi_putc(message->id >> 21);
-    spi_putc(message->id >> 13);
-    spi_putc(message->id >> 5);
-    spi_putc(message->id << 3);
-	
-	spi_putc(0);
-	spi_putc(0);
-	spi_putc(0);
-	spi_putc(0);
+	if (message->id_type == EXTENDED_ID)
+	{
+		spi_putc(message->id >> 21);
+		spi_putc(message->id >> 13);
+		spi_putc(message->id >> 5);
+		spi_putc(message->id << 3);
+		
+		spi_putc(0);
+		spi_putc(0);
+		spi_putc(0);
+		spi_putc(0);
+	}
+	else	// id_type == STANDARD_ID
+	{
+		spi_putc(message->id >> 5);
+		spi_putc(message->id << 3);
+
+		spi_putc(0);
+		spi_putc(0);
+	}
+
 	
 	uint8_t length = message->header.length & 0x0f;
 	
