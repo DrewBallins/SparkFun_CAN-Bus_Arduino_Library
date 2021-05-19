@@ -33,6 +33,7 @@ CanbusClass::CanbusClass() {
 }
 char CanbusClass::message_rx(unsigned char *buffer) {
 		tCAN message;
+		message.id_type = STANDARD_ID;
 	
 		if (mcp2515_check_message()) {
 		
@@ -63,7 +64,7 @@ char CanbusClass::message_rx(unsigned char *buffer) {
 
 char CanbusClass::message_tx(void) {
 	tCAN message;
-
+	message.id_type = STANDARD_ID;
 
 	// einige Testwerte
 	message.id = 0x7DF;
@@ -100,6 +101,7 @@ return 1;
 char CanbusClass::ecu_req(unsigned char pid,  char *buffer) 
 {
 	tCAN message;
+	message.id_type = STANDARD_ID;
 	float engine_data;
 	int timeout = 0;
 	char message_ok = 0;
