@@ -43,6 +43,7 @@ if (mcp2515_check_message())
 	{
         //if(message.id == 0x620 and message.data[2] == 0xFF)  //uncomment when you want to filter
              //{
+               
                Serial.print("ID type: ");
                if (message.id_type == STANDARD_ID)
                {
